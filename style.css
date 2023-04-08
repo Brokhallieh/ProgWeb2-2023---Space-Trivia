@@ -1,0 +1,18 @@
+body {
+    background-color: black;
+    color: rgb(105, 169, 211);
+}
+
+h1 {
+    text-align: center;
+}
+
+.stars {
+    position: fixed;
+    z-index: -1;
+}
+
+.stars span {
+    position: fixed;
+    background: white;
+}
