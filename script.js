@@ -42,17 +42,6 @@ function generateStars_in_area(fromX, toX, fromY, toY) {
     }
 }
 
-function clear_div(div) {
-    // élimine tout le contenu html dans la division en argument
-    while (div.firstChild) {
-        div.removeChild(div.firstChild);
-    }
-}
-
-function deleteStars() {
-    clear_div(starsContainer);
-}
-
 window.onload = function () { generateStars(); };
 
 window.onresize = function () {
