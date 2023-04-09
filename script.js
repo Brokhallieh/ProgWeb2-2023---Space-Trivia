@@ -1,14 +1,12 @@
 const starsContainer = document.querySelector(".stars");
 
-let resizeTimer = null;
-const resizeDelay = 50; // milliseconds, time before the stars in the background regenerate after re-sizing the window
 let maxWidth = 0;
 let maxHeight = 0;
 
-function createStar(starwidth, fromX, toX, fromY, toY) {
+function createStar(starwidth, fromX, width, fromY, height) {
     const star = document.createElement("span");
-    const x = fromX + Math.floor(Math.random() * toX);
-    const y = fromY + Math.floor(Math.random() * toY);
+    const x = fromX + Math.floor(Math.random() * width);
+    const y = fromY + Math.floor(Math.random() * height);
 
     star.style.left = `${x}px`;
     star.style.top = `${y}px`;
@@ -58,8 +56,5 @@ function deleteStars() {
 window.onload = function () { generateStars(); };
 
 window.onresize = function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function () {
-        generateStars();
-    }, resizeDelay);
+    generateStars();
 };
