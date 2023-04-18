@@ -1,3 +1,28 @@
+let loadMoreBtn = document.getElementById("load-more");
+let projectContainer = document.getElementById("questions-container");
+let data = {};
+
+loadMoreBtn.addEventListener("click", () => {
+    fetch("questions/get_question.php", {method: 'POST',
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data)})
+        .then(response => response.json()
+        .then(data => {
+            console.log(JSON.stringify(data));
+            data.forEach(project => {
+                let projectElement = document.createElement("div");
+                projectElement.classList.add("question");
+                projectElement.innerHTML = "<h2>" + project.Title + "</h2><p>" + project.Hello + "</p>";
+                projectContainer.appendChild(projectElement);
+            });
+        }))
+        .catch(error => console.log(error));
+});
+
+
+//stary backgroud
 const starsContainer = document.querySelector(".stars");
 
 let maxWidth = 0;
