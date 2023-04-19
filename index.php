@@ -45,33 +45,42 @@
             $string_language = $_POST['language_selected'];
         }
 
-        $sql = "CREATE TABLE IF NOT EXISTS translations (
-                    id INTEGER PRIMARY KEY AUTO_INCREMENT,
-                    lang VARCHAR(100),
-                    Title VARCHAR(100),
-                    Hello VARCHAR(100)
-                )";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-
-        $sql = "SELECT COUNT(*) FROM translations";
-        $result = $pdo->query($sql);
-        $count = $result->fetchColumn();
-
-        if ($count == 0) {
-            $sql = "INSERT INTO $dbname.translations
-                     VALUES (1, 'English', 'Trivia Space', 'Hello everyone'),
-                     (2, 'Francais', 'Trivia Espace', 'Bonjour tout le monde')";
-            $stmt = $pdo->prepare($sql);
+        function executeSQL($pdo, $SQLCode) {
+            $stmt = $pdo->prepare($SQLCode);
             $stmt->execute();
         }
 
+        executeSQL($pdo, "CREATE TABLE IF NOT EXISTS translations (
+            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            lang VARCHAR(100),
+            Title VARCHAR(100),
+            Hello VARCHAR(100)
+            )");
 
-        $sql = "SELECT lang FROM translations";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
+        function getSQLResult($pdo, $SQLCode) {
+            $result = $pdo->query($SQLCode);
+            return $result->fetchColumn();
+        }
+
+        $count = getSQLResult($pdo, "SELECT COUNT(*) FROM translations");
+
+        if ($count == 0) {
+            executeSQL($pdo, "INSERT INTO $dbname.translations
+                VALUES (1, 'English', 'Trivia Space', 'Hello everyone'),
+                (2, 'Francais', 'Trivia Espace', 'Bonjour tout le monde')");
+        }
+
+        function getUnfetchedSQL($pdo, $SQLCode) {
+            $retour = $pdo->prepare($SQLCode);
+            $retour->execute();
+            return $retour;
+        }
+
+
+        $unfetchedResult = getUnfetchedSQL($pdo, "SELECT lang FROM translations");
+
         $id_language = 0;
-        while (($row = $stmt->fetch(PDO::FETCH_ASSOC)) != NULL) {
+        while (($row = $unfetchedResult->fetch(PDO::FETCH_ASSOC)) != NULL) {
             if ($row['lang'] == $string_language) {
                 break;
             }
