@@ -8,6 +8,9 @@
         <link rel="icon" type="image/png" href="favicon.png">
     </head>
     <?php
+        include "ExecuteSQL.php";
+        include "Console_debug.php";
+
         //connexion
         $servername = "localhost"; // le nom de votre serveur MySQL
         $username = "root"; // votre nom d'utilisateur MySQL
@@ -45,30 +48,21 @@
             $string_language = $_POST['language_selected'];
         }
 
-        function executeSQL($pdo, $SQLCode) {
-            $stmt = $pdo->prepare($SQLCode);
-            $stmt->execute();
-        }
-
-        executeSQL($pdo, "CREATE TABLE IF NOT EXISTS translations (
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
-            lang VARCHAR(100),
-            Title VARCHAR(100),
-            Hello VARCHAR(100)
-            )");
+        executeAllSQL($pdo);
 
         function getSQLResult($pdo, $SQLCode) {
             $result = $pdo->query($SQLCode);
             return $result->fetchColumn();
         }
 
-        $count = getSQLResult($pdo, "SELECT COUNT(*) FROM translations");
+        $nb_translations = getSQLResult($pdo, "SELECT COUNT(*) FROM translations");
 
-        if ($count == 0) {
-            executeSQL($pdo, "INSERT INTO $dbname.translations
-                VALUES (1, 'English', 'Trivia Space', 'Hello everyone'),
-                (2, 'Francais', 'Trivia Espace', 'Bonjour tout le monde')");
+        if ($nb_translations == 0) {
+            insertTranslationsSQL($pdo, $dbname);
+            $nb_translations = getSQLResult($pdo, "SELECT COUNT(*) FROM translations");
         }
+
+        debug_to_console($nb_translations);
 
         function getUnfetchedSQL($pdo, $SQLCode) {
             $retour = $pdo->prepare($SQLCode);
