@@ -1,4 +1,4 @@
-let loadMoreBtn = document.getElementById("load-more");
+let loadMoreBtn = document.getElementById("load_another_question");
 let projectContainer = document.getElementById("questions-container");
 let string_language = document.getElementById("string_language").value;
 let data = {string_language : string_language};

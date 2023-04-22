@@ -11,15 +11,11 @@ $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
 
 
-$q_id = rand(1, 2);
+$q_id = rand(1, 4);
 
 $string_language = "English";
 $data = json_decode(file_get_contents("php://input"));
 $string_language= $data->string_language;
-
-if(isset($_POST['language_selected'])) {
-    $string_language = $_POST['language_selected'];
-}
 
 // Fetch question from database
 $stmt = $pdo->prepare("SELECT * FROM questions 

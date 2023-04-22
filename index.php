@@ -107,7 +107,7 @@
         </form>
         <br>
 
-        <button id="load-more"><?php printSelector('Button', $pdo, $id_language); ?></button>
+        <button id="load_another_question" alt="Button to see another random question"><?php printSelector('Button', $pdo, $id_language); ?></button>
 
         <br><br>
         <div id="questions-container"></div>
