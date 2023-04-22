@@ -31,7 +31,7 @@ loadMoreBtn.addEventListener("click", () => {
 
 
 //stary backgroud
-const starsContainer = document.querySelector(".stars");
+const starsContainer = document.getElementById("stars_container");
 
 let maxWidth = 0;
 let maxHeight = 0;
@@ -77,6 +77,4 @@ function generateStars_in_area(fromX, toX, fromY, toY) {
 
 window.onload = function () { generateStars(); };
 
-window.onresize = function () {
-    generateStars();
-};
+window.onresize = function () { generateStars(); };

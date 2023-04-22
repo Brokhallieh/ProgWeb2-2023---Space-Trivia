@@ -92,7 +92,9 @@
 
     <body>
         <input type="hidden" id="string_language" name="string_language" value=<?php echo $string_language ?>>
-        <h1><?php printSelector('Title', $pdo, $id_language)?></h1>
+        <header>
+            <h1><?php printSelector('Title', $pdo, $id_language)?></h1>
+        </header>
 
         <form method="post" action="index.php">
             <select id="language_selected" name="language_selected" alt="Select your language">
@@ -106,10 +108,12 @@
         <br>
 
         <button id="load-more"><?php printSelector('Button', $pdo, $id_language); ?></button>
+
         <br><br>
         <div id="questions-container"></div>
 
-        <div class="stars"></div>
+
+        <div id="stars_container"></div>
         <script src="JavaScript/script.js"></script>
     </body>
 

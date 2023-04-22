@@ -27,13 +27,8 @@ button {
     padding: 10px;
 }
 
-
-.stars {
-    position: fixed;
-    z-index: -1;
-}
-
-.stars span {
+#stars_container span {
     position: fixed;
     background: white;
+    z-index: -1;
 }
