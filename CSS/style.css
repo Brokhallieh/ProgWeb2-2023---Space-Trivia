@@ -7,8 +7,23 @@ h1 {
     text-align: center;
 }
 
+form {
+    display: flex;
+    align-items: center; /* align elements vertically centered */
+}
+
+select {
+    height: 31px;
+    margin: 5px;
+}
+
+button {
+    margin: 5px;
+}
+
+
 .question {
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     padding: 10px;
 }
 

@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en, fr">
     <head>
         <meta charset="UTF-8"/>
-        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="CSS/style.css" />
         <title>Trivia Space - Project Prog-Web2 Yann Toussaint 2023</title>
         <meta http-equiv="Content-Language" content="fr, en">
-        <link rel="icon" type="image/png" href="favicon.png">
+        <link rel="icon" type="image/png" href="assets/favicon.png">
     </head>
     <?php
-        include "ExecuteSQL.php";
-        include "Console_debug.php";
+        include "PHP/ExecuteSQL.php";
 
         //connexion
         $servername = "localhost"; // le nom de votre serveur MySQL
@@ -43,6 +42,9 @@
             die("Connection failed: " . $e->getMessage());
         }
 
+        $translationsTable = "translations";
+        $questionsTable = "questions";
+
         $string_language = "English";
         if(isset($_POST['language_selected'])) {
             $string_language = $_POST['language_selected'];
@@ -55,14 +57,9 @@
             return $result->fetchColumn();
         }
 
-        $nb_translations = getSQLResult($pdo, "SELECT COUNT(*) FROM translations");
 
-        if ($nb_translations == 0) {
-            insertTranslationsSQL($pdo, $dbname);
-            $nb_translations = getSQLResult($pdo, "SELECT COUNT(*) FROM translations");
-        }
+        RebuildDBIfNecessary($pdo, $translationsTable, $questionsTable);
 
-        debug_to_console($nb_translations);
 
         function getUnfetchedSQL($pdo, $SQLCode) {
             $retour = $pdo->prepare($SQLCode);
@@ -94,24 +91,26 @@
     ?>
 
     <body>
+        <input type="hidden" id="string_language" name="string_language" value=<?php echo $string_language ?>>
         <h1><?php printSelector('Title', $pdo, $id_language)?></h1>
 
-        <?php printSelector('Hello', $pdo, $id_language); ?>
-
         <form method="post" action="index.php">
-            <label for="language_selected">language :</label>
-            <select id="language_selected" name="language_selected">
+            <select id="language_selected" name="language_selected" alt="Select your language">
                 <option value="English">English</option>
                 <option value="Francais">Français</option>
             </select>
-            <button type="submit">Envoyer</button>
+            <button type="submit" alt="Submit button to change language">
+                <img src="assets/symbol_traduction.jpg" height="22" width="22" alt="Logo of translation">
+            </button>
         </form>
+        <br>
 
-        <button id="load-more">Voir plus de questions</button>
+        <button id="load-more"><?php printSelector('Button', $pdo, $id_language); ?></button>
+        <br><br>
         <div id="questions-container"></div>
 
         <div class="stars"></div>
-        <script src="script.js"></script>
+        <script src="JavaScript/script.js"></script>
     </body>
 
     <?php /*fermeture de la connexion*/ $pdo = null; ?>

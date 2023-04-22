@@ -1,20 +1,28 @@
 let loadMoreBtn = document.getElementById("load-more");
 let projectContainer = document.getElementById("questions-container");
-let data = {};
+let string_language = document.getElementById("string_language").value;
+let data = {string_language : string_language};
+
+function clearElement(element) {
+    element.innerHTML = "";
+}
 
 loadMoreBtn.addEventListener("click", () => {
-    fetch("questions/get_question.php", {method: 'POST',
+    clearElement(projectContainer);
+    fetch("../PHP/get_question.php", {method: 'POST',
     headers: {
         "Content-Type": "application/json",
     },
     body: JSON.stringify(data)})
         .then(response => response.json()
         .then(data => {
-            console.log(JSON.stringify(data));
+            //console.log(JSON.stringify(data)); // debug
             data.forEach(project => {
                 let projectElement = document.createElement("div");
                 projectElement.classList.add("question");
-                projectElement.innerHTML = "<h2>" + project.Title + "</h2><p>" + project.Hello + "</p>";
+                projectElement.innerHTML = "<h2>" + project.question + "</h2><p>"
+                    + project.answer_a + "</p><p>" + project.answer_b + "</p><p>"
+                    + project.answer_c + "</p><p>" + project.answer_d + "</p>";
                 projectContainer.appendChild(projectElement);
             });
         }))
