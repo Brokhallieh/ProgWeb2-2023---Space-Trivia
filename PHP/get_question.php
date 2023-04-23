@@ -26,3 +26,5 @@ $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Return question as JSON
 header('Content-Type: application/json');
 echo json_encode($projects);
+
+$pdo = null; //fermeture de la connexion
