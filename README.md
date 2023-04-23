@@ -1,3 +1,8 @@
+The project worked on windows but doesn't seem to be able to on Linux for some reason, I can't quite figure it
+out, so sorry about that. It has probably something to do with the ExecuteSQL.php file in the include statements
+but even when removing alle the special characters it still doesn't seem to work.
+
+
 To open the php site you need to have a php server running
 and a mySQL server running, then go into a terminal at
 the project source and type:
