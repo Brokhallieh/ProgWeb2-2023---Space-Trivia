@@ -7,7 +7,7 @@ function clearElement(element) {
     element.innerHTML = "";
 }
 
-loadMoreBtn.addEventListener("click", () => {
+loadMoreBtn.addEventListener("click", function () {
     clearElement(projectContainer);
     fetch("../PHP/get_question.php", {method: 'POST',
     headers: {
@@ -27,6 +27,56 @@ loadMoreBtn.addEventListener("click", () => {
             });
         }))
         .catch(error => console.log(error));
+    document.getElementById("link_mail_score").style.display = "block";
+});
+
+
+document.getElementById("email").addEventListener("click", function () {
+    if (this.value === "email") {
+        this.value = "";
+    }
+});
+
+function email_valide(email) {
+    let textBefore = false, atSignSeen = false, textBetween=false, dotSeen = false;
+    for(let i=0; i<email.length; i++) {
+        if(!textBefore) {
+            if (email[i] === '@') {
+                return false;
+            }
+            textBefore = true;
+        }
+        else if (textBefore && !atSignSeen && email[i] === '@')
+            atSignSeen = true;
+        else if(atSignSeen && !textBetween) {
+            if (email[i] === '.') {
+                return false;
+            }
+            textBetween = true;
+        }
+        else if (textBetween && !dotSeen && email[i] === '.')
+            dotSeen = true;
+        else if (textBefore, atSignSeen, textBetween, dotSeen)
+            return true;
+    }
+    return false;
+}
+
+let email = document.getElementById("email").value;
+
+document.getElementById("submit_score").addEventListener("click", function () {
+    let email = document.getElementById("email").value;
+    if (email_valide(email)) {
+        let score = parseInt(document.getElementById("score").value);
+        let data_form = {email : email, score: score};
+
+        fetch("../PHP/send_form.php", {method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data_form)})
+            .catch(error => console.log(error));
+    }
 });
 
 

@@ -8,7 +8,7 @@ Normally it generates the database and it's contents
 if they are missing but if there is a problem here is my database:  
 Name: trivia_space
 
-I have 2 tables: translations and questions.
+I have 3 tables: translations, questions and users.
 
 translations contains the translations for the static elements
 for the English and the French version.  
@@ -67,3 +67,24 @@ And the values of the questions table:
 |  8 |    4 | Quelle est la distance approximative entre Jupiter et le Soleil en kilometres?                                       | 100 000 000     | 44 000 000     | 740 000 000     | 250 000 000   | Francais |              3 |  
 +----+------+----------------------------------------------------------------------------------------------------------------------+-----------------+----------------+-----------------+---------------+----------+----------------+
 
+The users table contains the mail of the different users and their
+score. Only the people who put a mail and a score are in the DB.
+
+Here is the description of the users table:
+
++-------+--------------+------+-----+---------+----------------+  
+| Field | Type         | Null | Key | Default | Extra          |  
++-------+--------------+------+-----+---------+----------------+  
+| id    | int(11)      | NO   | PRI | NULL    | auto_increment |  
+| email | varchar(255) | YES  |     | NULL    |                |  
+| score | varchar(255) | YES  |     | NULL    |                |  
++-------+--------------+------+-----+---------+----------------+
+
+
+And an example of the values that can be contained in the questions table:
+
++----+-----------+-------+  
+| id | email     | score |  
++----+-----------+-------+  
+|  1 | yes@it.is | 1     |  
++----+-----------+-------+

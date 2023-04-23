@@ -4,6 +4,15 @@ function executeSQL($pdo, $SQLCode) {
     $stmt->execute();
 }
 
+function getUnfetchedSQL($pdo, $SQLCode) {
+    $retour = $pdo->prepare($SQLCode);
+    $retour->execute();
+    return $retour;
+}
+
+function getSQLResult($pdo, $SQLCode) {
+    return $pdo->query($SQLCode)->fetchColumn();
+}
 
 
 function executeAllSQL($pdo) {
@@ -21,6 +30,10 @@ function executeAllSQL($pdo) {
         answer_c VARCHAR(255),
         answer_d VARCHAR(255),
         lang VARCHAR(255))");
+    executeSQL($pdo,  "CREATE TABLE IF NOT EXISTS users(
+        id int PRIMARY KEY AUTO_INCREMENT, 
+        email VARCHAR(255),                
+        score VARCHAR(255))");
 }
 
 function insertTranslationsSQL($pdo, $translationsTable) {

@@ -52,20 +52,8 @@
 
         executeAllSQL($pdo);
 
-        function getSQLResult($pdo, $SQLCode) {
-            $result = $pdo->query($SQLCode);
-            return $result->fetchColumn();
-        }
-
 
         RebuildDBIfNecessary($pdo, $translationsTable, $questionsTable);
-
-
-        function getUnfetchedSQL($pdo, $SQLCode) {
-            $retour = $pdo->prepare($SQLCode);
-            $retour->execute();
-            return $retour;
-        }
 
 
         $unfetchedResult = getUnfetchedSQL($pdo, "SELECT lang FROM translations");
@@ -93,7 +81,7 @@
     <body>
         <input type="hidden" id="string_language" name="string_language" value=<?php echo $string_language ?>>
         <header>
-            <h1><?php printSelector('Title', $pdo, $id_language)?></h1>
+            <h1> <?php printSelector('Title', $pdo, $id_language)?> </h1>
         </header>
 
         <form method="post" action="index.php">
@@ -107,13 +95,34 @@
         </form>
         <br>
 
-        <button id="load_another_question" alt="Button to see another random question"><?php printSelector('Button', $pdo, $id_language); ?></button>
+        <button id="load_another_question" alt="Button to see another random question">
+            <?php printSelector('language_button', $pdo, $id_language); ?>
+        </button>
 
         <br><br>
-        <div id="questions-container"></div>
+        <section id="questions-container"></section>
+        <br><br>
+
+        <div method="post" action="index.php" id="link_mail_score" style="display: none">
+            <label for="email">
+                <?php printSelector('email', $pdo, $id_language); ?>
+            </label>
+            <input id="email" type="email" value="email" alt="Your email">
+            <p></p>
+
+            <label>
+                <?php printSelector('score', $pdo, $id_language); ?>
+                <input type="number" id="score" min="0" max="4" alt="Your score on the questions">
+            </label>
+            <p></p>
+
+            <button type="submit" id="submit_score" alt="Submit button to link an email and a score">
+                <?php printSelector('link_email_score_button', $pdo, $id_language); ?>
+            </button>
+        </div>
 
 
-        <div id="stars_container"></div>
+        <aside id="stars_container"></aside>
         <script src="JavaScript/script.js"></script>
     </body>
 
