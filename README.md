@@ -1,5 +1,4 @@
-The project should work now.
-
+The project works now on linux and windows
 
 To open the php site you need to have a php server running
 and a mySQL server running, then go into a terminal at
