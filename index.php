@@ -46,8 +46,7 @@
             die("Connection failed: " . $e->getMessage());
         }
 
-        $translationsTable = "translations";
-        $questionsTable = "questions";
+        include "PHP/table_names.php";
 
         $string_language = "English";
         if(isset($_POST['language_selected'])) {
@@ -60,7 +59,7 @@
         RebuildDBIfNecessary($pdo, $translationsTable, $questionsTable);
 
 
-        $unfetchedResult = getUnfetchedSQL($pdo, "SELECT lang FROM translations");
+        $unfetchedResult = getUnfetchedSQL($pdo, "SELECT lang FROM $translationsTable");
 
         $id_language = 0;
         while (($row = $unfetchedResult->fetch(PDO::FETCH_ASSOC)) != NULL) {
@@ -70,9 +69,9 @@
             $id_language++;
         }
 
-        function printSelector($selector, $pdo, $id_language) {
+        function printSelector($selector, $table, $pdo, $id_language) {
             $rows = [];
-            $sql = "SELECT $selector FROM translations";
+            $sql = "SELECT $selector FROM $table";
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
             while (($row = $stmt->fetch(PDO::FETCH_ASSOC)) != NULL) {
@@ -85,7 +84,7 @@
     <body>
         <input type="hidden" id="string_language" name="string_language" value=<?php echo $string_language ?>>
         <header>
-            <h1> <?php printSelector('Title', $pdo, $id_language)?> </h1>
+            <h1> <?php printSelector('Title', $translationsTable, $pdo, $id_language)?> </h1>
         </header>
 
         <form method="post" action="index.php">
@@ -100,7 +99,7 @@
         <br>
 
         <button id="load_another_question" alt="Button to see another random question">
-            <?php printSelector('language_button', $pdo, $id_language); ?>
+            <?php printSelector('language_button', $translationsTable, $pdo, $id_language); ?>
         </button>
 
         <br><br>
@@ -109,19 +108,19 @@
 
         <div method="post" action="index.php" id="link_mail_score" style="display: none">
             <label for="email">
-                <?php printSelector('email', $pdo, $id_language); ?>
+                <?php printSelector('email', $translationsTable, $pdo, $id_language); ?>
             </label>
             <input id="email" type="email" value="email" alt="Your email">
             <p></p>
 
             <label>
-                <?php printSelector('score', $pdo, $id_language); ?>
+                <?php printSelector('score', $translationsTable, $pdo, $id_language); ?>
                 <input type="number" id="score" min="0" max="4" alt="Your score on the questions">
             </label>
             <p></p>
 
             <button type="submit" id="submit_score" alt="Submit button to link an email and a score">
-                <?php printSelector('link_email_score_button', $pdo, $id_language); ?>
+                <?php printSelector('link_email_score_button', $translationsTable, $pdo, $id_language); ?>
             </button>
         </div>
 
